@@ -59,8 +59,8 @@ x_train, dx_train, x_valid, dx_valid = data_loader(params)
 model = Deep_Delay_AE(params).to(device)
 score, losses = model.Train(x_train,dx_train, x_valid, dx_valid)
 
-# import pickle
-# with open('Results/final_output.pkl', 'wb') as f:
-#     pickle.dump(score, f)
-# with open('Results/final_losses.pkl', 'wb') as f:
-#     pickle.dump(losses, f)
+import pickle
+with open('Results/final_output.pkl', 'wb') as f:
+    pickle.dump(score, f)
+with open('Results/final_losses.pkl', 'wb') as f:
+    pickle.dump(losses, f)
