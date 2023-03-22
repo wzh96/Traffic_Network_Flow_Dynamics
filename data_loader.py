@@ -2,12 +2,11 @@ import numpy as np
 from scipy.linalg import hankel
 
 def data_loader(params):
-    data_flow = np.load('Data/X.npy')
+    data_flow = np.load('Data/X_red.npy')
     #delay embedding
-    #partial_dim =
-    partial_dim = params['partial_measurement']
     np.random.seed(12)
-    partial_index = np.sort(np.random.choice(data_flow.shape[1], partial_dim,replace=False))
+    #partial_index = np.sort(np.random.choice(data_flow.shape[1], params['partial_measurement'], replace=False))
+    partial_index = [0,1,2,4,5,6]
     data_flow_partial = data_flow[:,partial_index]
     s = ((data_flow.shape[0] - params['embedding_dimension'] + 1), (data_flow_partial.shape[1] * params[
         'embedding_dimension']))

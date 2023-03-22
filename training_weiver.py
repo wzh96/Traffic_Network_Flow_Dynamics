@@ -72,7 +72,13 @@ class Deep_Delay_AE(nn.Module):
                         'dz': score_val['dz'],
                         'x_decode': score_val['x_decode'],
                         'dx_decode': score_val['dx_decode'],
-                        'dz_predict': score_val['dz_predict']}
+                        'dz_predict': score_val['dz_predict'],
+                        'Theta': score_val['Theta'],
+                        'encoder_weights': score_val['encoder_weights'],
+                        'encoder_biases': score_val['encoder_biases'],
+                        'decoder_weights': score_val['decoder_weights'],
+                        'decoder_biases': score_val['decoder_biases']
+                        }
 
         return results_dict, losses_detail_final
 

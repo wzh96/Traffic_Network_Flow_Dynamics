@@ -54,8 +54,12 @@ def define_loss(network, params):
 
     losses['sindy_consistency_loss'] = 0
     z_initial = z
-    # Here I am only able to integrate over several embedding dimension.
-    for dim in range(3):
+    # Here I am only able to integrate over 3 embedding dimension.
+    if params['embedding_dimension'] <= 3:
+        int_dim = params['embedding_dimension']-1
+    else:
+        int_dim = 3
+    for dim in range(int_dim):
         #z_new = torch.clamp(rk1_step(dim, z_initial, sindy_function, 1), min = -1e+10, max = 1e+10)
         z_new = rk1_step(dim, z_initial, sindy_function, 1)
         for p in range(params['partial_measurement']):
