@@ -52,7 +52,7 @@ params['learning_rate'] = 1e-3
 params['data_path'] = os.getcwd() + '/'
 # training time cutoffs
 params['max_epochs'] = 10001
-params['refinement_epochs'] = 2001
+params['refinement_epochs'] = 1001
 
 x_train, dx_train, x_valid, dx_valid = data_loader(params)
 

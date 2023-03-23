@@ -12,7 +12,7 @@ def data_loader(params):
         'embedding_dimension']))
     data_flow_H = np.zeros(s)
     for i in range(data_flow_partial.shape[1]):
-        data_temp = data_flow_partial[:,0]
+        data_temp = data_flow_partial[:,i]
         data_temp_H = hankel(data_temp)
         data_temp_H = data_temp_H[:(data_flow.shape[0]-params['embedding_dimension']+1), :params['embedding_dimension']]
         data_flow_H[:,i*params['embedding_dimension']:(i+1)*params['embedding_dimension']] = data_temp_H
