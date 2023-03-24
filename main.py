@@ -9,30 +9,21 @@ from data_loader import data_loader
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 print('###### Preparing Data ######')
-# noise_strength = 1e-6
-# training_data = get_lorenz_data(1024, noise_strength=noise_strength)
-# validation_data = get_lorenz_data(20, noise_strength=noise_strength)
-
-
-# x_train = training_data['x']
-# dx_train = training_data['dx']
-# x_valid = validation_data['x']
-# dx_valid = validation_data['dx']
 
 params = {}
 params['device'] = device
 params['include_SVD'] = False
-params['reduced_rank'] = 10
+params['reduced_rank'] = 17
 params['latent_dim'] = 7
 params['poly_order'] = 2
 params['include_sine'] = False
 params['library_dim'] = library_size(params['latent_dim'], params['poly_order'], params['include_sine'], True)
 params['partial_measurement'] = 6
-params['embedding_dimension'] = 4
+params['embedding_dimension'] = 3
 params['input_dim'] = params['partial_measurement'] * params['embedding_dimension']
 # sequential thresholding parameters
 params['sequential_thresholding'] = True
-params['coefficient_threshold'] = 0.1
+params['coefficient_threshold'] = 0.01
 params['threshold_frequency'] = 500
 params['coefficient_mask'] = np.ones((params['library_dim'], params['latent_dim']))
 params['coefficient_initialization'] = 'constant'
@@ -49,7 +40,7 @@ params['activation'] = 'linear' # choose from "linear", "relu", "sigmoid", "elu"
 params['widths'] = [14,10]
 params['batch_size'] = 256
 params['learning_rate'] = 1e-3
-params['data_path'] = os.getcwd() + '/'
+#params['data_path'] = os.getcwd() + '/'
 # training time cutoffs
 params['max_epochs'] = 10001
 params['refinement_epochs'] = 1001

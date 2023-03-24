@@ -63,6 +63,10 @@ class Deep_Delay_AE(nn.Module):
         # output all losses
         _,losses_detail_final,_ = define_loss(score_val, self.params)
 
+        torch.save({
+            'model_state_dict': self.network.state_dict(),
+        }, 'Saved_Model/model_checkpoint.pt')
+
 
         # Save the validation score
         results_dict = {'sindy_coefficients': torch.mul(self.params['coefficient_mask'], score['sindy_coefficients']),
