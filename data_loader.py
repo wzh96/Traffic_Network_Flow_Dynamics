@@ -30,6 +30,23 @@ def data_loader(params):
 
     return x_train, dx_train, x_val, dx_val
 
+def data_loader_noH():
+    data_flow = np.load('Data/X_red.npy')
+    data_flow = data_flow[:,[0,1,2,3,4]]
+
+    data_flow = data_flow/100
+    data_flow_dev = np.gradient(data_flow, 1)[0]
+
+    train_obs = round(data_flow.shape[0]*0.8)
+    x_train = data_flow[:train_obs,:]
+    dx_train = data_flow_dev[:train_obs,:]
+    x_val = data_flow[train_obs:, :]
+    dx_val = data_flow_dev[train_obs:, :]
+
+    return x_train, dx_train, x_val, dx_val
+
+
+
 
 
 
