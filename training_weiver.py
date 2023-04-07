@@ -22,6 +22,9 @@ class Deep_Delay_AE(nn.Module):
         print("###### model training in process ######")
         x_train, dx_train = torch.Tensor(x_train).to(self.device), torch.Tensor(dx_train).to(self.device)
         x_val, dx_val = torch.Tensor(x_val).to(self.device), torch.Tensor(dx_val).to(self.device)
+
+        training_loss_sum = []
+        training_loss_val_sum = []
         for epoch in range(self.params['max_epochs']):
             start_time = time.time()
             for b in range(num_batches):
@@ -41,8 +44,13 @@ class Deep_Delay_AE(nn.Module):
             loss_val,_,_ = define_loss(score_val, self.params)
             print('Epoch {:d} Loss {:.6f} Validation Loss {:.6f} Duration {:.3f} seconds.'.format(epoch, loss, loss_val, duration))
 
+            training_loss_sum.append(loss)
+            training_loss_val_sum.append(loss_val)
+
 
         print('###### Model refinement in process ######')
+        refine_loss_sum = []
+        refine_loss_val_sum = []
         for epoch_refine in range(self.params['refinement_epochs']):
             start_time = time.time()
             for b in range(num_batches):
@@ -60,6 +68,8 @@ class Deep_Delay_AE(nn.Module):
             score_val = self.network(x_val, dx_val)
             _,_,loss_refine_val = define_loss(score_val, self.params)
             print('Epoch {:d} Refinement loss {:.6f} Validation refinement loss {:.6f} Duration {:.3f} seconds.'.format(epoch_refine, loss_refine, loss_refine_val, duration))
+            refine_loss_sum.append(loss_refine)
+            refine_loss_val_sum.append(loss_refine_val)
         # output all losses
         _,losses_detail_final,_ = define_loss(score_val, self.params)
 
@@ -84,7 +94,17 @@ class Deep_Delay_AE(nn.Module):
                         'decoder_biases': score_val['decoder_biases']
                         }
 
-        return results_dict, losses_detail_final
+        # move all items in the dict to 'cpu'
+
+        for key in results_dict:
+            if isinstance(results_dict[key], torch.Tensor):
+                results_dict[key] = results_dict[key].cpu()
+
+        for key in losses_detail_final:
+            if isinstance(losses_detail_final[key], torch.Tensor):
+                losses_detail_final[key] = losses_detail_final[key].cpu()
+
+        return results_dict, losses_detail_final, training_loss_sum, training_loss_val_sum, refine_loss_sum, refine_loss_val_sum
 
     # def test_validate(self, x_test, dx_test, params):
 

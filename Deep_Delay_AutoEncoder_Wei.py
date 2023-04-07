@@ -33,7 +33,7 @@ def define_loss(network, params):
     # Sindy consistency loss
     ## define dz/dz based on sindy library and sindy coefficient in the current epoch
     def sindy_function(t, z):
-        theta = build_sindy_library(z, params['latent_dim'], params['poly_order'])
+        theta = build_sindy_library(z, params['latent_dim'], params['poly_order'], params['include_sine'])
         z_dev = torch.matmul(theta, sindy_coefficients)
         return z_dev
 

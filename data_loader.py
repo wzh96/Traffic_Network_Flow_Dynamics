@@ -6,8 +6,11 @@ def data_loader(params):
     #delay embedding
     np.random.seed(12)
     #partial_index = np.sort(np.random.choice(data_flow.shape[1], params['partial_measurement'], replace=False))
-    partial_index = [0,1,2,4,5,6]
+    partial_index = [0,1,2,3,4]
     data_flow_partial = data_flow[:,partial_index]
+
+    #in the current, we take all measurement and create latent variables for the unmeasurable dynamics
+    #data_flow_partial = data_flow
     s = ((data_flow.shape[0] - params['embedding_dimension'] + 1), (data_flow_partial.shape[1] * params[
         'embedding_dimension']))
     data_flow_H = np.zeros(s)
