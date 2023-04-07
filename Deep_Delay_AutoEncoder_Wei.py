@@ -36,7 +36,6 @@ def define_loss(network, params):
         theta = build_sindy_library(z, params['latent_dim'], params['poly_order'], params['include_sine'])
         z_dev = torch.matmul(theta, sindy_coefficients)
         return z_dev
-
     ## define RK4 function for one step update
     # def rk4_step(t, A, f, dt):
     #     k1 = dt * f(t, A)

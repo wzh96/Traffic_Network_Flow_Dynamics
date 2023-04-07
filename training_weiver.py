@@ -88,10 +88,10 @@ class Deep_Delay_AE(nn.Module):
                         'dx_decode': score_val['dx_decode'],
                         'dz_predict': score_val['dz_predict'],
                         'Theta': score_val['Theta'],
-                        'encoder_weights': score_val['encoder_weights'],
-                        'encoder_biases': score_val['encoder_biases'],
-                        'decoder_weights': score_val['decoder_weights'],
-                        'decoder_biases': score_val['decoder_biases']
+                        # 'encoder_weights': score_val['encoder_weights'],
+                        # 'encoder_biases': score_val['encoder_biases'],
+                        # 'decoder_weights': score_val['decoder_weights'],
+                        # 'decoder_biases': score_val['decoder_biases']
                         }
 
         # move all items in the dict to 'cpu'

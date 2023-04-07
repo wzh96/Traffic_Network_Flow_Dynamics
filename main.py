@@ -24,7 +24,7 @@ if __name__ == "__main__":
     params['input_dim'] = params['partial_measurement'] * params['embedding_dimension']
     # sequential thresholding parameters
     params['sequential_thresholding'] = True
-    params['coefficient_threshold'] = 0.05
+    params['coefficient_threshold'] = 0.02
     params['threshold_frequency'] = 500
     params['coefficient_mask'] = torch.ones((params['library_dim'], params['latent_dim'])).to(device)
     params['coefficient_initialization'] = 'constant'
@@ -43,8 +43,8 @@ if __name__ == "__main__":
     params['learning_rate'] = 1e-3
     # params['data_path'] = os.getcwd() + '/'
     # training time cutoffs
-    params['max_epochs'] = 10001
-    params['refinement_epochs'] = 1001
+    params['max_epochs'] = 9001
+    params['refinement_epochs'] = 201
 
     x_train, dx_train, x_valid, dx_valid = data_loader(params)
 
