@@ -2,15 +2,16 @@ import numpy as np
 from scipy.linalg import hankel
 
 def data_loader(params):
-    data_flow = np.load('Data/X_red.npy')
+    data_flow = np.load('Data/X_red3.npy')
     #delay embedding
     np.random.seed(12)
-    #partial_index = np.sort(np.random.choice(data_flow.shape[1], params['partial_measurement'], replace=False))
-    #partial_index = [0,1,2,3,4]
-    #data_flow_partial = data_flow[:,partial_index]
+    # smooth data
+    window_size = 5
+    kernel = np.ones(window_size) / window_size
+    data_flow_smooth = np.apply_along_axis(lambda x: np.convolve(x, kernel, mode='valid'), axis=0, arr=data_flow)
 
     #in the current, we take all measurement and create latent variables for the unmeasurable dynamics
-    data_flow_partial = data_flow
+    data_flow_partial = data_flow_smooth
     s = ((data_flow.shape[0] - params['embedding_dimension'] + 1), (data_flow_partial.shape[1] * params[
         'embedding_dimension']))
     data_flow_H = np.zeros(s)
@@ -32,7 +33,7 @@ def data_loader(params):
 
 def data_loader_noH():
     data_flow = np.load('Data/X_red.npy')
-    data_flow = data_flow[:,[0,1,2,3,4]]
+    #data_flow = data_flow[:,[0,1,2,3,4]]
 
     data_flow = data_flow/100
     data_flow_dev = np.gradient(data_flow, 1)[0]

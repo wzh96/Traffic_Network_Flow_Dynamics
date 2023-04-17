@@ -20,7 +20,7 @@ if __name__ == "__main__":
     ## here partial measurement is the available flow station number.
     params['partial_measurement'] = 7
     ##
-    params['embedding_dimension'] = 4
+    params['embedding_dimension'] = 5
     params['input_dim'] = params['partial_measurement'] * params['embedding_dimension']
     # sequential thresholding parameters
     params['sequential_thresholding'] = True
