@@ -3,10 +3,11 @@ from scipy.linalg import hankel
 
 def data_loader(params):
     data_flow = np.load('Data/X_red3.npy')
+    data_flow = data_flow[:,[0,1,2,3,5,6]]
     #delay embedding
     np.random.seed(12)
     # smooth data
-    window_size = 5
+    window_size = 1
     kernel = np.ones(window_size) / window_size
     data_flow_smooth = np.apply_along_axis(lambda x: np.convolve(x, kernel, mode='valid'), axis=0, arr=data_flow)
 
@@ -32,7 +33,7 @@ def data_loader(params):
     return x_train, dx_train, x_val, dx_val
 
 def data_loader_noH():
-    data_flow = np.load('Data/X_red.npy')
+    data_flow = np.load('Data/X_red3.npy')
     #data_flow = data_flow[:,[0,1,2,3,4]]
 
     data_flow = data_flow/100

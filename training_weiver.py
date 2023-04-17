@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import time
 import numpy as np
-#import tqdm as tqdm
 from Deep_Delay_AutoEncoder_Wei import full_network
 from Deep_Delay_AutoEncoder_Wei import define_loss
 
@@ -13,7 +12,8 @@ class Deep_Delay_AE(nn.Module):
         self.params = params
         self.network = full_network(self.params).to(self.device)
         self.optimizer = torch.optim.Adam(self.network.parameters(),lr=self.params['learning_rate'])
-        self.optimizer_refine = torch.optim.Adam(self.network.parameters(),lr=self.params['learning_rate'])
+        self.LRSchdular = torch.optim.lr_scheduler.StepLR(self.optimizer, step_size=1000, gamma= 0.5)
+        #self.optimizer_refine = torch.optim.Adam(self.network.parameters(),lr=self.params['learning_rate'])
 
     def Train(self, x_train, dx_train, x_val, dx_val):
         self.network.train()
@@ -39,6 +39,7 @@ class Deep_Delay_AE(nn.Module):
             if self.params['sequential_thresholding'] and (epoch % self.params['threshold_frequency'] == 0) and (epoch > 0):
                 self.params['coefficient_mask'] = torch.abs(score['sindy_coefficients']) > self.params['coefficient_threshold']
                 print('THRESHOLDING: %d active coefficients' % torch.sum(self.params['coefficient_mask']))
+            self.LRSchdular.step()
             duration = time.time() - start_time
             score_val = self.network(x_val, dx_val)
             loss_val,_,_ = define_loss(score_val, self.params)
@@ -60,10 +61,11 @@ class Deep_Delay_AE(nn.Module):
                     dx_train_batch).to(self.device)
                 score = self.network(x_train_batch, dx_train_batch)
                 _, _, loss_refine = define_loss(score, self.params)
-                self.optimizer_refine.zero_grad()
+                self.optimizer.zero_grad()
                 loss_refine.backward()
-                self.optimizer_refine.step()
+                self.optimizer.step()
                 print('Batch {:d}/{:d} Loss_Refinement {:.6f}'.format(b, num_batches, loss_refine), end='\r', flush=True)
+            self.LRSchdular.step()
             duration = time.time() - start_time
             score_val = self.network(x_val, dx_val)
             _,_,loss_refine_val = define_loss(score_val, self.params)

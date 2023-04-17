@@ -18,9 +18,9 @@ if __name__ == "__main__":
     params['library_dim'] = library_size(params['latent_dim'], params['poly_order'], params['include_sine'], True)
 
     ## here partial measurement is the available flow station number.
-    params['partial_measurement'] = 7
+    params['partial_measurement'] = 6
     ##
-    params['embedding_dimension'] = 5
+    params['embedding_dimension'] = 10
     params['input_dim'] = params['partial_measurement'] * params['embedding_dimension']
     # sequential thresholding parameters
     params['sequential_thresholding'] = True
