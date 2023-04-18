@@ -20,7 +20,7 @@ if __name__ == "__main__":
     ## here partial measurement is the available flow station number.
     params['partial_measurement'] = 6
     ##
-    params['embedding_dimension'] = 10
+    params['embedding_dimension'] = 20
     params['input_dim'] = params['partial_measurement'] * params['embedding_dimension']
     # sequential thresholding parameters
     params['sequential_thresholding'] = True
@@ -40,9 +40,8 @@ if __name__ == "__main__":
     params['widths'] = [14, 10]
     params['batch_size'] = 256
     params['learning_rate'] = 1e-3
-    # params['data_path'] = os.getcwd() + '/'
     # training time cutoffs
-    params['max_epochs'] = 5001
+    params['max_epochs'] = 6001
     params['refinement_epochs'] = 1001
 
     x_train, dx_train, x_valid, dx_valid = data_loader(params)
