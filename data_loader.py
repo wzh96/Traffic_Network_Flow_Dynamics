@@ -34,7 +34,7 @@ def data_loader(params):
 
 def data_loader_noH():
     data_flow = np.load('Data/X_red3.npy')
-    #data_flow = data_flow[:,[0,1,2,3,4]]
+    data_flow = data_flow[:,[0,1,2,3,5,6]]
 
     data_flow = data_flow/100
     data_flow_dev = np.gradient(data_flow, 1)[0]
