@@ -18,22 +18,22 @@ params['embedding_dimension'] = 10
 params['input_dim'] = params['partial_measurement'] * params['embedding_dimension']
 # sequential thresholding parameters
 params['sequential_thresholding'] = True
-params['coefficient_threshold'] = 0.1
-params['threshold_frequency'] = 500
+params['coefficient_threshold'] = 0.001
+params['threshold_frequency'] = 1000
 params['coefficient_mask'] = torch.ones((params['library_dim'], params['latent_dim'])).to(device)
-params['coefficient_initialization'] = 'constant'
+params['coefficient_initialization'] = 'zeros'  # choose from 'xavier', 'specified', 'constant', 'zeros', 'normal'
 # loss function weighting
 params['loss_weight_recon'] = 1e-2
 params['loss_weight_sindy_z'] = 1e-1
 params['loss_weight_sindy_x'] = 0
 params['loss_weight_sindy_regularization'] = 1e-1
 params['loss_weight_z1'] = 1e-1
-params['loss_weight_sindy_consistency'] = 1e-20
+params['loss_weight_sindy_consistency'] = 1e-1
 # training parameters
 params['activation'] = 'linear'  # choose from "linear", "relu", "sigmoid", "elu"
-params['widths'] = [14, 10]
+params['widths'] = [40, 20]
 params['batch_size'] = 256
 params['learning_rate'] = 1e-3
 # training time cutoffs
-params['max_epochs'] = 6001
+params['max_epochs'] = 3001
 params['refinement_epochs'] = 1001

@@ -323,6 +323,8 @@ class full_network(nn.Module):
             self.sindy_coefficients = nn.Parameter(self.params['init_coefficients'])
         elif self.params['coefficient_initialization'] == 'constant':
             self.sindy_coefficients = nn.Parameter(torch.ones(self.library_dim, self.latent_dim))
+        elif self.params['coefficient_initialization'] == 'zeros':
+            self.sindy_coefficients = nn.Parameter(torch.zeros(self.library_dim, self.latent_dim))
         elif self.params['coefficient_initialization'] == 'normal':
             self.sindy_coefficients = nn.Parameter(torch.randn(self.library_dim, self.latent_dim))
 
