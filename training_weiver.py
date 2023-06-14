@@ -25,13 +25,26 @@ class Deep_Delay_AE(nn.Module):
 
         training_loss_sum = []
         training_loss_val_sum = []
+        training_loss_recon_sum = []
+        training_loss_val_recon_sum = []
+        training_loss_x_sum = []
+        training_loss_val_x_sum = []
+        training_loss_z_sum = []
+        training_loss_val_z_sum = []
+        training_loss_z1_sum = []
+        training_loss_val_z1_sum = []
+        training_loss_cons_sum = []
+        training_loss_val_cons_sum = []
+        training_loss_reg_sum = []
+        training_loss_val_reg_sum = []
+
         for epoch in range(self.params['max_epochs']):
             start_time = time.time()
             for b in range(num_batches):
                 x_train_batch = x_train[b * self.params['batch_size']:(b+1)*self.params['batch_size'],:]
                 dx_train_batch = dx_train[b * self.params['batch_size']:(b+1)*self.params['batch_size'],:]
                 score = self.network(x_train_batch, dx_train_batch)
-                loss,_,_ = define_loss(score, self.params)
+                loss,losses_all,_ = define_loss(score, self.params)
                 self.optimizer.zero_grad()
                 loss.backward()
                 self.optimizer.step()
@@ -42,12 +55,29 @@ class Deep_Delay_AE(nn.Module):
             self.LRSchdular.step()
             duration = time.time() - start_time
             score_val = self.network(x_val, dx_val)
-            loss_val,_,_ = define_loss(score_val, self.params)
+            loss_val,losses_val_all,_ = define_loss(score_val, self.params)
             print('Epoch {:d} Loss {:.6f} Validation Loss {:.6f} Duration {:.3f} seconds.'.format(epoch, loss, loss_val, duration))
 
             training_loss_sum.append(loss)
             training_loss_val_sum.append(loss_val)
 
+            training_loss_recon_sum.append(losses_all['recon'])
+            training_loss_val_recon_sum.append(losses_val_all['recon'])
+
+            training_loss_x_sum.append(losses_all['sindy_x'])
+            training_loss_val_x_sum.append(losses_val_all['sindy_x'])
+
+            training_loss_z_sum.append(losses_all['sindy_z'])
+            training_loss_val_z_sum.append(losses_val_all['sindy_z'])
+
+            training_loss_z1_sum.append(losses_all['z1_loss'])
+            training_loss_val_z1_sum.append(losses_val_all['z1_loss'])
+
+            training_loss_cons_sum.append(losses_all['sindy_consistency_loss'])
+            training_loss_val_cons_sum.append(losses_val_all['sindy_consistency_loss'])
+
+            training_loss_reg_sum.append(losses_all['sindy_regularization'])
+            training_loss_val_reg_sum.append(losses_val_all['sindy_regularization'])
 
         print('###### Model refinement in process ######')
         refine_loss_sum = []
@@ -106,9 +136,10 @@ class Deep_Delay_AE(nn.Module):
             if isinstance(losses_detail_final[key], torch.Tensor):
                 losses_detail_final[key] = losses_detail_final[key].cpu()
 
-        return results_dict, losses_detail_final, training_loss_sum, training_loss_val_sum, refine_loss_sum, refine_loss_val_sum
+        return results_dict, losses_detail_final, training_loss_sum, training_loss_val_sum, refine_loss_sum, refine_loss_val_sum, training_loss_recon_sum, \
+               training_loss_val_recon_sum, training_loss_x_sum, training_loss_val_x_sum, training_loss_z_sum, training_loss_val_z_sum, training_loss_z1_sum, \
+               training_loss_val_z1_sum, training_loss_cons_sum, training_loss_val_cons_sum, training_loss_reg_sum, training_loss_val_reg_sum
 
-    # def test_validate(self, x_test, dx_test, params):
 
 
 
