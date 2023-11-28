@@ -2,8 +2,8 @@ import numpy as np
 from scipy.linalg import hankel
 
 def data_loader(params):
-    data_flow = np.load('Data/X_red3.npy')
-    data_flow = data_flow[:,[0,1,2,3,5,6]]
+    data_flow = np.load('Data/X_red_10stations.npy')
+    #data_flow = data_flow[:,[0,1,2,3,5,6]]
     #delay embedding
     np.random.seed(12)
     # smooth data
@@ -33,8 +33,8 @@ def data_loader(params):
     return x_train, dx_train, x_val, dx_val
 
 def data_loader_noH():
-    data_flow = np.load('Data/X_red3.npy')
-    data_flow = data_flow[:,[0,1,2,3,5,6]]
+    data_flow = np.load('Data/X_red_10stations.npy')
+    #data_flow = data_flow[:,[0,1,2,3,5,6]]
 
     data_flow = data_flow/100
     data_flow_dev = np.gradient(data_flow, 1)[0]
